@@ -1,0 +1,9 @@
+https://www.topcoder.com/tc?module=ProblemArchive&sc=2&sd=asc&cat=Dynamic+Programming
+longest common substring
+
+https://web.stanford.edu/class/cs97si/04-dynamic-programming.pdf
+- POJ 2663: Tri Tiling http://poj.org/problem?id=2663
+- longest common sequence
+- given a string x = x1...n, find the minimum number of characters that need to be inserted to make it a palindrome
+- given a tree, color nodes black as many as possible without coloring two adjacent nodes
+- given a weighted graph with n nodes, find the shortest path that visits every node exactly once (Traveling Salesman Problem)
