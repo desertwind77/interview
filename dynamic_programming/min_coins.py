@@ -4,7 +4,7 @@
 # type as we want) or report that its' not possible to select coins in such a way
 # that they sum up to S.)
 
-def numsCoin( coins, total ):
+def minCoin( coins, total ):
    size = total + 1
    result = [ float( 'inf' ) ] * size
 
@@ -29,4 +29,4 @@ if __name__ == '__main__':
    for test in testcases:
       coins = test[ 'coins' ]
       total = test[ 'total' ]
-      assert( numsCoin( coins, total ) )
+      assert( minCoin( coins, total ) )
