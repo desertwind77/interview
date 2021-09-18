@@ -15,24 +15,43 @@ def canSum( targetSum, nums, mems={} ):
         return False
     else:
         for i in nums:
-            if canSum( targetSum - i, nums, mems ):
+            if canSum( targetSum - i, nums, mems=mems ):
                 mems[ targetSum ] = True
                 return True
         mems[ targetSum ] = False
         return False
 
-# True
-mems = {}
-print( canSum( 7, [ 2, 3 ], mems ) )
-# True
-mems = {}
-print( canSum( 7, [ 5, 3, 4, 7 ], mems ) )
-# False
-mems = {}
-print( canSum( 7, [ 2, 4 ], mems ) )
-# True
-mems = {}
-print( canSum( 8, [ 2, 3, 5 ], mems ) )
-# False
-mems = {}
-print( canSum( 300, [ 7, 14 ], mems ) )
+if __name__ == '__main__':
+   testCases = [
+         {
+            'targetSum' : 7,
+            'nums'      : [ 2, 3 ],
+            'answer'    : True,
+         },
+         {
+            'targetSum' : 7,
+            'nums'      : [ 5, 3, 4, 7 ],
+            'answer'    : True,
+         },
+         {
+            'targetSum' : 7,
+            'nums'      : [ 2, 4 ],
+            'answer'    : False,
+         },
+         {
+            'targetSum' : 8,
+            'nums'      : [ 2, 3, 5 ],
+            'answer'    : True,
+         },
+         {
+            'targetSum' : 300,
+            'nums'      : [ 7, 14 ],
+            'answer'    : False,
+         },
+   ]
+
+   for test in testCases:
+      targetSum = test[ 'targetSum' ]
+      nums = test[ 'nums' ]
+      answer = test[ 'answer' ]
+      assert( answer == canSum( targetSum, nums, mems={} ) )
