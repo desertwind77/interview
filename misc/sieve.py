@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 import math
+'''
+Find the prime number using Sieve of Eratosthenes
+'''
 
-def sieve2( n ):
+def sieve1( n ):
    primes = [ True ] * ( n + 1 )
    primes[ 0 ] = primes[ 1 ] = False
 
@@ -14,7 +17,7 @@ def sieve2( n ):
    answer = [ i for i in range( 2, n + 1 ) if primes[ i ] ]
    return answer
 
-def sieve( n ):
+def sieve2( n ):
    primes = [ True ] * ( n + 1 )
    primes[ 0 ] = primes[ 1 ] = False
    m = int( math.sqrt( n ) )
@@ -30,5 +33,15 @@ def sieve( n ):
    return answer
 
 if __name__ == '__main__':
-   answer = sieve( 20 )
-   print( answer )
+   testCases = [
+         {
+            'input' : 20,
+            'answer' : [ 2, 3, 5, 7, 11, 13, 17, 19 ],
+         }
+   ]
+
+   for test in testCases:
+      n = test[ 'input' ]
+      answer = test[ 'answer' ]
+      assert( answer == sieve1( n ) )
+      assert( answer == sieve2( n ) )
