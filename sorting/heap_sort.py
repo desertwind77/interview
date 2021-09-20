@@ -1,72 +1,39 @@
 #!/usr/bin/env python3
 import math
 
-class Heap:
-   # MinHeap
-   def __init__( self, arr ):
-      self.heap = arr 
+def maxHeapify( array, cur, size  ):
+   left = 2 * cur + 1
+   right = 2 * cur + 2
 
-   '''
-   def parent( self, cur ):
-      return ceil( ( cur - 1 ) / 2 )
+   largest = cur
+   if left < size and array[ cur ] < array[ left ]:
+      largest = left
+   if right < size and array[ largest ] < array[ right ]:
+      largest = right
 
-   def leftChild( self, cur ):
-      return 2 * cur + 1
+   if largest != cur:
+      array[ cur ], array[ largest ] = array[ largest ], array[ cur ]
+      maxHeapify( array, largest, size )
 
-   def rightChild( self, cur ):
-      return 2 * cur + 2
+def buildMaxHeap( array ):
+   size = len( array )
+   for i in range( math.ceil( size / 2 ) - 1, -1, -1 ):
+      maxHeapify( array, i, size )
 
-   def maxHeapify( self, size, index ):
-      pass
+def heap_sort( array ):
+   # Build a max heap. Note that a heap is not a sorted array
+   buildMaxHeap( array )
 
-   def insert( self, n ):
-      self.data.append( n )
-      size = len( self.data )
+   size = len( array )
+   for i in range( size - 1, 0, -1 ):
+      # The root of the max heap is the largest element in the array.
+      # Keep placing it toward the end of the array.
+      array[ 0 ], array[ i ] = array[ i ], array[ 0 ]
+      maxHeapify( array, 0, i )
 
-      cur = size - 1
-      parent = self.parent( cur )
-      while cur != 0:
-         if self.data[ cur ] < self.data[ parent ]:
-            self.data[ cur ], self.data[ parent ] = \
-                  self.data[ parent ], self.data[ cur ]
-
-   def delete( self ):
-      pass
-   '''
-
-   def buildMaxHeap( self ):
-      size = len( self.heap )
-      for i in range( math.ceil( size / 2 ) - 1, -1, -1 ):
-         self.maxHeapify( i, size )
-
-   def maxHeapify( self, cur, size  ):
-      left = 2 * cur + 1
-      right = 2 * cur + 2
-
-      largest = cur
-      if left < size and self.heap[ cur ] < self.heap[ left ]:
-         largest = left
-      if right < size and self.heap[ largest ] < self.heap[ right ]:
-         largest = right
-
-      if largest != cur:
-         self.heap[ cur ], self.heap[ largest ] = \
-               self.heap[ largest ], self.heap[ cur ]
-         self.maxHeapify( largest, size )
-
-   def sort( self ):
-      # Build a max heap
-      self.buildMaxHeap()
-
-      size = len( self.heap )
-      for i in range( size - 1, 0, -1 ):
-         # The root of the max heap is the largest element in the array.
-         # Keep placing it toward the end of the array.
-         self.heap[ 0 ], self.heap[ i ] = \
-               self.heap[ i ], self.heap[ 0 ]
-         self.maxHeapify( 0, i )
-
-      return self.heap
+   # Though heap sort is an in-place sort, we still return the sorted array
+   # so that the API is compatible with other sorting algorithm.
+   return array
 
 if __name__ == '__main__':
    testCases = [
@@ -77,5 +44,4 @@ if __name__ == '__main__':
    ]
 
    for test in testCases:
-      heap = Heap( test.copy() )
-      assert( sorted( test ) == heap.sort() )
+      assert( sorted( test ) == heap_sort( test.copy() ) )
