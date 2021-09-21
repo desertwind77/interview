@@ -1,25 +1,25 @@
 #!/usr/bin/env python3
 
 def canSum( targetSum, nums, mems={} ):
-    '''see if we can generate targetSum by using numbers in nums.
+   '''see if we can generate targetSum by using numbers in nums.
 
-    Note:
-    - All elements are positive.
-    - We can resule elements in the array as many times as needed.
-    '''
-    if targetSum in mems:
-        return mems[ targetSum ]
-    if targetSum == 0:
-        return True
-    elif targetSum < 0:
-        return False
-    else:
-        for i in nums:
-            if canSum( targetSum - i, nums, mems=mems ):
-                mems[ targetSum ] = True
-                return True
-        mems[ targetSum ] = False
-        return False
+   Note:
+   - All elements are positive.
+   - We can resule elements in the array as many times as needed.
+   '''
+   if targetSum in mems:
+      return mems[ targetSum ]
+   if targetSum == 0:
+      return True
+   elif targetSum < 0:
+      return False
+   else:
+      for i in nums:
+         if canSum( targetSum - i, nums, mems=mems ):
+            mems[ targetSum ] = True
+            return True
+      mems[ targetSum ] = False
+      return False
 
 if __name__ == '__main__':
    testCases = [
