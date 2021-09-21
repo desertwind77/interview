@@ -19,7 +19,7 @@ def quick_sort( array, start=None, end=None ):
    end = len( array ) - 1 if end == None else end
 
    if start >= end:
-      return
+      return array
 
    pi = partition( array, start, end )
    quick_sort( array, start, pi - 1 )
