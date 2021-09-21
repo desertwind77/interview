@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-def buble_sort( array ):
+def bubble_sort( array ):
    size = len( array )
 
    for i in range( 0, size - 1 ):
@@ -20,4 +20,4 @@ if __name__ == '__main__':
    ]
 
    for test in testCases:
-      assert( sorted( test ) == buble_sort( test.copy() ) )
+      assert( sorted( test ) == bubble_sort( test.copy() ) )

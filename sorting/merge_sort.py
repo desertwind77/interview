@@ -28,7 +28,7 @@ def merge_sort( array ):
    if size <= 1:
       return array
 
-   mid = math.ceil( ( 0 + size - 1 ) / 2 )
+   mid = math.ceil( ( size - 1 ) / 2 )
    left = merge_sort( array[ 0 : mid ] )
    right = merge_sort( array[ mid : ] )
    merge( array, left, right )

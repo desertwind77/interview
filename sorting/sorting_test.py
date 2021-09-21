@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from buble_sort import buble_sort
+from bubble_sort import bubble_sort
 from heap_sort import heap_sort
 from insertion_sort import insertion_sort
 from merge_sort import merge_sort
@@ -20,7 +20,7 @@ testCases = [
 ]
 
 for test in testCases:
-   assert( sorted( test ) == buble_sort( test.copy() ) )
+   assert( sorted( test ) == bubble_sort( test.copy() ) )
    assert( sorted( test ) == heap_sort( test.copy() ) )
    assert( sorted( test ) == insertion_sort( test.copy() ) )
    assert( sorted( test ) == merge_sort( test.copy() ) )
