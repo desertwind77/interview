@@ -3,7 +3,7 @@
 from buble_sort import buble_sort
 from heap_sort import heap_sort
 from insertion_sort import insertion_sort
-#import merge_sort
+from merge_sort import merge_sort
 from quick_sort import quick_sort
 from selection_sort import selection_sort
 
@@ -23,6 +23,6 @@ for test in testCases:
    assert( sorted( test ) == buble_sort( test.copy() ) )
    assert( sorted( test ) == heap_sort( test.copy() ) )
    assert( sorted( test ) == insertion_sort( test.copy() ) )
-   print( quick_sort( test.copy() ) )
+   assert( sorted( test ) == merge_sort( test.copy() ) )
    assert( sorted( test ) == quick_sort( test.copy() ) )
    assert( sorted( test ) == selection_sort( test.copy() ) )
