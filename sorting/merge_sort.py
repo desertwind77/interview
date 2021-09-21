@@ -24,7 +24,6 @@ def merge( array, left, right ):
       i += 1
 
 def merge_sort( array ):
-   array = array[:]
    size = len( array )
    if size <= 1:
       return array
