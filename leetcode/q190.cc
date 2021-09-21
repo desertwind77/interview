@@ -30,40 +30,40 @@
 using namespace std;
 
 class Solution {
-    public:
-        uint32_t reverseBits( uint32_t n ) {
-            uint32_t reverse = 0;
-            uint32_t mask = 0x1;
-            uint32_t rem = 0;
+   public:
+      uint32_t reverseBits( uint32_t n ) {
+         uint32_t reverse = 0;
+         uint32_t mask = 0x1;
+         uint32_t rem = 0;
 
-            for( int i = 0 ; i < 32 ; ++i ) {
-                rem = n & mask;
-                reverse = ( reverse << 1 ) | rem;
-                n = n >> 1;
-            }
+         for( int i = 0 ; i < 32 ; ++i ) {
+            rem = n & mask;
+            reverse = ( reverse << 1 ) | rem;
+            n = n >> 1;
+         }
 
-            return reverse;
-        }
+         return reverse;
+      }
 };
 
 struct TestCase {
-    uint32_t input;
-    uint32_t output;
+   uint32_t input;
+   uint32_t output;
 } testCases[] = {
-    { 43261596, 964176192 },
-    { 4294967293, 3221225471 },
+   { 43261596, 964176192 },
+   { 4294967293, 3221225471 },
 };
 
 int main() {
-    uint32_t size = sizeof( testCases ) / sizeof( struct TestCase );
+   uint32_t size = sizeof( testCases ) / sizeof( struct TestCase );
 
-    for( uint8_t i = 0 ; i < size ; ++i ) {
-        uint32_t input = testCases[ i ].input;
-        uint32_t output = testCases[ i ].output;
-        assert( Solution().reverseBits( input ) == output );
-    }
+   for( uint8_t i = 0 ; i < size ; ++i ) {
+      uint32_t input = testCases[ i ].input;
+      uint32_t output = testCases[ i ].output;
+      assert( Solution().reverseBits( input ) == output );
+   }
 
-    cout << "Passed" << endl;
+   cout << "Passed" << endl;
 
-    return 0;
+   return 0;
 }
