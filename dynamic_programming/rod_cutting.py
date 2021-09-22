@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 def rod_cutting( length, profit, maxProfit={}, maxCut={} ):
-    '''Cut the rod in such a way that achieves the maximum profit
+    '''
+    Cut the rod in such a way that achieves the maximum profit
 
     length      the length of the rod
     profit      the array containing the profit at each length
@@ -24,5 +25,22 @@ def rod_cutting( length, profit, maxProfit={}, maxCut={} ):
         maxCut[ length ] = curCut
         return curMax
 
-print( 'max = ', rod_cutting( 5, [ 0, 1, 3, 5, 5, 5 ] ) )
-print( 'max = ', rod_cutting( 4, [ 0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30 ] ) )
+if __name__ == '__main__':
+   testCases = [
+         {
+            'length' : 5,
+            'cost'   : [ 0, 1, 3, 5, 5, 5 ],
+            'answer' : 8,
+         },
+         {
+            'length' : 4,
+            'cost'   : [ 0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30 ],
+            'answer' : 6,
+         },
+   ]
+
+   for test in testCases:
+      length = test[ 'length' ]
+      cost = test[ 'cost' ]
+      answer = test[ 'answer' ]
+      assert( answer == rod_cutting( length, cost ) )

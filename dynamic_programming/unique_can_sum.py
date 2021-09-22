@@ -9,10 +9,9 @@ def genCandidates( num_list ):
     return result
 
 def uniqueCanSum( targetSum, nums, mem={} ):
-    '''see if we can generate targetSum by using numbers in nums
-
-    Note : we can use each number for only one times and numbers
-    may be negative or positive.
+    '''
+    See if we can generate targetSum by using numbers in nums. Each number may be
+    negative or positve and can be used only once.
     '''
     key = tuple( nums )
     if key in mem:
@@ -31,7 +30,22 @@ def uniqueCanSum( targetSum, nums, mem={} ):
                     return True
             return False
 
-nums = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-targetSum = 1700
+if __name__ == '__main__':
+   testCases = [
+         {
+            'targetSum' : 17,
+            'nums'      : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+            'answer'    : True,
+         },
+         {
+            'targetSum' : 1700,
+            'nums'      : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+            'answer'    : False,
+         },
+   ]
 
-print( uniqueCanSum( targetSum, nums ) )
+   for test in testCases:
+      targetSum = test[ 'targetSum' ]
+      nums = test[ 'nums' ]
+      answer = test[ 'answer' ]
+      assert( answer == uniqueCanSum( targetSum, nums ) )
