@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 def canSum( targetSum, nums, mems={} ):
-   '''see if we can generate targetSum by using numbers in nums.
+   '''See if we can generate targetSum by using numbers in nums.
 
    Note:
    - All elements are positive.
