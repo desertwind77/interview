@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 def allSum( targetSum, nums, mems={} ):
-   '''find all the combinations to generate targetSum by using numbers in nums.
+   '''Find all the combinations to generate targetSum by using numbers in nums.
 
    Note:
    - All elements are positive.
