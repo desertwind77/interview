@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# count the number of ways that the target can be constructed by concatenating
+# Count the number of ways that the target can be constructed by concatenating
 # elements of the wordBank array.
 
 def countConstructTopDown( target, wordBank, mem={} ):
