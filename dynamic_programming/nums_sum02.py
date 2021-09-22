@@ -24,11 +24,41 @@ def bestSum( targetSum, nums, mems={} ):
             mems[ targetSum ] = ( True, smallest )
         else:
             mems[ targetSum ] = ( False, [] )
-        return mems[ targetSum ] 
+        return mems[ targetSum ]
 
-mems = {}
-print( bestSum( 7, [ 2, 3 ], mems ) )
-mems = {}
-print( bestSum( 7, [ 5, 3, 4, 7 ], mems ) )
-mems = {}
-print( bestSum( 8, [ 2, 3, 5 ], mems ) )
+if __name__ == '__main__':
+   testCases = [
+         {
+            'targetSum' : 7,
+            'nums'      : [ 2, 3 ],
+            'answer'    : [ 2, 2, 3 ],
+         },
+         {
+            'targetSum' : 7,
+            'nums'      : [ 5, 3, 4, 7 ],
+            'answer'    : [ 7 ],
+         },
+         {
+            'targetSum' : 7,
+            'nums'      : [ 2, 4 ],
+            'answer'    : [],
+         },
+         {
+            'targetSum' : 8,
+            'nums'      : [ 2, 3, 5 ],
+            'answer'    : [ 3, 5 ],
+         },
+         {
+            'targetSum' : 300,
+            'nums'      : [ 7, 14 ],
+            'answer'    : [],
+         },
+   ]
+
+   for test in testCases:
+      targetSum = test[ 'targetSum' ]
+      nums = test[ 'nums' ]
+      answer = test[ 'answer' ]
+
+      _, result = bestSum( targetSum, nums, mems={} )
+      assert( answer == sorted( result ) )
