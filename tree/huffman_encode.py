@@ -20,8 +20,7 @@ def huffmanEncode( string ):
    for s in string:
       answer += coding[ s ]
 
-   assert( string == huffmanDecode( answer, coding ) )
-   return answer
+   return ( answer, coding )
 
 def huffmanDecode( string, coding ):
    '''
@@ -62,4 +61,6 @@ if __name__ == '__main__':
    for test in testCases:
       string = test[ 'string' ]
       answer = test[ 'answer' ]
-      assert( answer == len( huffmanEncode( string ) ) )
+      encoded, coding = huffmanEncode( string )
+      assert( answer == len( encoded ) )
+      assert( string == huffmanDecode( encoded, coding ) )
