@@ -3,41 +3,41 @@
 from collections import defaultdict
 from huffman_tree import huffmanTree
 
-def getWordFrequency( string ):
-   freq = defaultdict( int )
-   for s in string:
-      freq[ s ] += 1
-   return dict( freq )
+def getWordFrequency( plainText ):
+   wordFrequency = defaultdict( int )
+   for s in plainText:
+      wordFrequency[ s ] += 1
+   return dict( wordFrequency )
 
-def huffmanEncode( string ):
+def huffmanEncode( plainText ):
    '''
-   Encode string using Huffman's algorithm
+   Encode plainText using Huffman's algorithm
    '''
-   freq = getWordFrequency( string )
-   coding = huffmanTree( freq )
+   wordFrequency = getWordFrequency( plainText )
+   huffmanCodeDict = huffmanTree( wordFrequency )
 
    answer = ''
-   for s in string:
-      answer += coding[ s ]
+   for s in plainText:
+      answer += huffmanCodeDict[ s ]
 
-   return ( answer, coding )
+   return ( answer, huffmanCodeDict )
 
-def huffmanDecode( string, coding ):
+def huffmanDecode( plainText, huffmanCodeDict ):
    '''
-   Decode string using Huffman's algorithm
+   Decode plainText using Huffman's algorithm
    '''
-   reverseCoding = {}
-   for k, v in coding.items():
-      reverseCoding[ v ] = k
+   reversehuffmanCodeDict = {}
+   for k, v in huffmanCodeDict.items():
+      reversehuffmanCodeDict[ v ] = k
 
    decoded = ''
-   while len( string ) != 0:
+   while len( plainText ) != 0:
       found = False
-      for code, symbol in reverseCoding.items():
-         if string.startswith( code ):
+      for code, symbol in reversehuffmanCodeDict.items():
+         if plainText.startswith( code ):
             decoded += symbol
             size = len( code )
-            string = string[ size: ]
+            plainText = plainText[ size: ]
             found = True
 
       if not found:
@@ -51,16 +51,16 @@ if __name__ == '__main__':
 
             # The input has 47 characters, each of which takes one byte. So the input
             # takes 47 * 8 = 376 bits.
-            'string' : 'Huffman coding is a data compression algorithm.',
-            # The encoded string takes 194 bits which is 51.6% of the original
-            # string.
+            'plainText' : 'Huffman coding is a data compression algorithm.',
+            # The encoded plainText takes 194 bits which is 51.6% of the original
+            # plainText.
             'answer' : 194,
          }
    ]
 
    for test in testCases:
-      string = test[ 'string' ]
+      plainText = test[ 'plainText' ]
       answer = test[ 'answer' ]
-      encoded, coding = huffmanEncode( string )
+      encoded, huffmanCodeDict = huffmanEncode( plainText )
       assert( answer == len( encoded ) )
-      assert( string == huffmanDecode( encoded, coding ) )
+      assert( plainText == huffmanDecode( encoded, huffmanCodeDict ) )
