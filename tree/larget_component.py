@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
-from collections import defaultdict
-
+# https://structy.net/problems/largest-component
 # Write a function, largestComponent, that takes in the adjacency list of an
 # undirected graph. The function should return the size of the largest connected
 # component in the graph.
+
+from collections import defaultdict
 
 def largestComponent( graph ):
    stack = []

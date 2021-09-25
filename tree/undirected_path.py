@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
-from collections import defaultdict
-from has_path import hasPath
-
+# https://structy.net/problems/undirected-path
 # Write a function, undirectedPath, that takes in an array of edges for an undirected
 # graph and two nodes (nodeA, nodeB). The function should return a boolean indicating
 # whether or not there exists a path between nodeA and nodeB.
+
+from collections import defaultdict
+from has_path import hasPath
 
 def undirectedPath( edges, nodeA, nodeB ):
    graph = defaultdict( list ) 
