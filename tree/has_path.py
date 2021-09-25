@@ -18,7 +18,8 @@ def hasPath( graph, src, dst ):
       for i in neighbors:
          if i == dst:
             return True
-         stack.append( i )
+         if not visited.get( i, None ):
+            stack.append( i )
 
       visited[ cur ] = True
 
