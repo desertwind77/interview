@@ -10,19 +10,20 @@
 def islandCount( grid ):
    row = len( grid )
    col = len( grid[ 0 ] )
-   visited = [ [ False for i in range( 0, col ) ] for j in range( 0, row ) ]
+   visited = [ [ False for _ in range( 0, col ) ] for _ in range( 0, row ) ]
 
    stack = []
    count = 0
    for i in range( 0, row ):
       for j in range( 0, col ):
+         if visited[ i ][ j ]:
+            continue
          if grid[ i ][ j ] == 'W':
             visited[ i ][ j ] = True
             continue
 
-         if not visited[ i ][ j ]:
-            stack.append( ( i, j ) )
-            count += 1
+         stack.append( ( i, j ) )
+         count += 1
          while len( stack ) != 0:
             cur = stack.pop()
             x = cur[ 0 ]
