@@ -84,3 +84,10 @@ if __name__ == '__main__':
             'answer' : False,
          },
    ]
+
+   for test in testCases:
+      edges = test[ 'edges']
+      src = test[ 'src' ]
+      dst = test[ 'dst' ]
+      answer = test[ 'answer' ]
+      assert( answer == undirectedPath( edges, src, dst ) )
