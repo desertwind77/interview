@@ -90,8 +90,10 @@ def buildFiniteAutomata( pattern ):
       # Find the longest possible suffix that is also a prefix in
       # pattern[ 0 : state ]c where c is nextChar
       #
+      # index    : 0 1 2 3 4 5 6
       # pattern  : A C A C A G A
-      # curState :         ^
+      #                    ^
+      # curState : 5 
       # nextChar : C
       #
       # From above, assume state 0 represents emptyt string, curState = 5 which
