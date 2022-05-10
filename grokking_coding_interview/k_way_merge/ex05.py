@@ -17,7 +17,6 @@ def kLargestPairs( lists, k ):
             else:
                heapq.heappop( minHeap )
                heapq.heappush( minHeap, ( lists[ 0 ][ i ] + lists[ 1 ][ j ], lists[ 0 ][ i ], lists[ 1 ][ j ]  ) )
-               #heapq.heappush( minHeap, ( lists[ 0 ] + lists[ 1 ], i, j ) )
 
    result = []
    for elem in minHeap:
