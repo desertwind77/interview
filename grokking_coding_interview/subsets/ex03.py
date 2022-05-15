@@ -71,6 +71,20 @@ def permutations3( nums ):
 
    return sorted( result )
 
+def doPermutation( nums, index, curPermutation, result ):
+   if index == len( nums ):
+      result.append( curPermutation )
+   else:
+      for i in range( len( curPermutation ) + 1 ):
+         newPermutation = list( curPermutation )
+         newPermutation.insert( i, nums[ index ] )
+         doPermutation( nums, index + 1, newPermutation, result )
+
+def permutationRecursive( nums ):
+   result = []
+   doPermutation( nums, 0, [], result )
+   return result
+
 testCases = [
       {
          'input' : [ 1, 2, 3 ],
@@ -85,3 +99,4 @@ for test in testCases:
    assert( permutations1( i ) == o )
    assert( permutations2( i ) == o )
    assert( permutations3( i ) == o )
+   assert( sorted( permutationRecursive( i ) ) )
