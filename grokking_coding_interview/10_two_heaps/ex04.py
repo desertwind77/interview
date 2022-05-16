@@ -38,6 +38,33 @@ def nextIntervals( intervals ):
 
    return result
 
+class Interval:
+   def __init__( self, start, end ):
+      self.start = start
+      self.end = end
+
+def nextIntervals2( intervals ):
+   n = len( intervals )
+   maxStartHeap, maxEndHeap = [], []
+
+   result = [ -1 for _ in range( n ) ]
+   for i in range( n ):
+      heappush( maxStartHeap, ( -intervals[ i ].start, i ) )
+      heappush( maxEndHeap, ( -intervals[ i ].end, i ) )
+
+   for _ in range( n ):
+      topEnd, endIndex = heappop( maxEndHeap )
+      if -maxStartHeap[ 0 ][ 0 ] >= -topEnd:
+         topStart, startIndex = heappop( maxStartHeap )
+         while maxStartHeap and -maxStartHeap[ 0 ][ 0 ] >= -topEnd:
+            topStart, startIndex = heappop( maxStartHeap )
+
+         result[ endIndex ] = startIndex
+
+         heappush( maxStartHeap, ( topStart, startIndex ) )
+
+   return result
+
 testCases = [
       {
          'intervals' : [ [ 2, 3 ], [ 3, 4 ], [ 5, 6 ] ],
@@ -53,3 +80,5 @@ for test in testCases:
    i = test[ 'intervals' ]
    o = test[ 'output' ]
    assert( nextIntervals( i ) == o )
+   intervals = [ Interval( x[ 0 ], x[ 1 ] ) for x in i ]
+   assert( nextIntervals2( intervals ) == o )
