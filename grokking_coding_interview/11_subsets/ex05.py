@@ -46,6 +46,21 @@ def parentheses2( num ):
 
    return result
 
+def doRecursive( num, curParenthesis, result ):
+   if len( curParenthesis[ 0 ] ) == 2 * num:
+      result.append( curParenthesis[ 0 ] )
+   else:
+      string, numOpen, numClose = curParenthesis
+      if numOpen < num:
+         doRecursive( num, ( string + '(', numOpen + 1, numClose ), result )
+      if numClose < numOpen:
+         doRecursive( num, ( string + ')', numOpen, numClose + 1 ), result )
+
+def recursive( num ):
+   result = []
+   doRecursive( num, ( '', 0, 0 ), result )
+   return result
+
 testCases = [
       {
          'input' : 2,
@@ -62,3 +77,4 @@ for test in testCases:
    o = test[ 'output' ]
    assert( parentheses1( i ) == o )
    assert( parentheses2( i ) == o )
+   assert( recursive( i ) == o )

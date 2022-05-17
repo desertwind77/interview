@@ -40,6 +40,58 @@ def abbreviate( str ):
 
    return result
 
+from collections import deque
+
+class AbbreviatedWord:
+   def __init__( self, str, start, count ):
+      self.str = str
+      self.start = start
+      self.count = count
+
+def generateGeneralizedAbbreviation( word ):
+   wordLen = len( word )
+   result = []
+   queue = deque()
+   queue.append( AbbreviatedWord( list(), 0, 0 ) )
+   while queue:
+      abWord = queue.popleft()
+      if abWord.start == wordLen:
+         if abWord.count != 0:
+            abWord.str.append( str( abWord.count ) )
+         result.append( ''.join( abWord.str ) )
+      else:
+         queue.append( AbbreviatedWord( list( abWord.str ), abWord.start + 1,
+                                        abWord.count + 1 ) )
+
+         if abWord.count != 0:
+            abWord.str.append( str( abWord.count ) )
+
+         newWord = list( abWord.str )
+         newWord.append( word[ abWord.start ] )
+         queue.append( AbbreviatedWord( newWord, abWord.start + 1, 0 ) )
+
+   return result
+
+def generateAbbreviationRecursive( word, abWord, start, count, result ):
+   if start == len( word ):
+      if count != 0:
+         abWord.append( str( count ) )
+      result.append( ''.join( abWord ) )
+   else:
+      generateAbbreviationRecursive(
+            word, list( abWord ), start + 1, count + 1, result )
+
+      if count != 0:
+         abWord.append( str( count ) )
+      newWord = list( abWord )
+      newWord.append( word[ start ] )
+      generateAbbreviationRecursive( word, newWord, start + 1, 0, result )
+
+def generateGeneralizedAbbreviation2( word ):
+   result = []
+   generateAbbreviationRecursive( word, list(), 0, 0, result )
+   return result
+
 testCases = [
       {
          'input'  : 'BAT',
@@ -57,3 +109,5 @@ for test in testCases:
    i = test[ 'input' ]
    o = sorted( test[ 'output' ] )
    assert( sorted( abbreviate( i ) ) == sorted( o ) )
+   assert( sorted( generateGeneralizedAbbreviation( i ) ) == sorted( o ) )
+   assert( sorted( generateGeneralizedAbbreviation2( i ) ) == sorted( o ) )

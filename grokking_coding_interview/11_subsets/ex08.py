@@ -42,5 +42,34 @@ def doBst( nodes ):
 def bst( num ):
    return doBst( list( range( 0, num ) ) )
 
+class TreeNode:
+   def __init__( self, val ):
+      self.val = val
+      self.left = None
+      self.right = None
+
+def findUniqueTrees( n ):
+   if n <= 0:
+      return []
+   return findUniqueTreesRecursive( 1, n )
+
+def findUniqueTreesRecursive( start, end ):
+   result = []
+   if start > end:
+      result.append( None )
+      return result
+
+   for i in range( start, end + 1 ):
+      leftSubtrees = findUniqueTreesRecursive( start, i - 1 )
+      rightSubtrees = findUniqueTreesRecursive( i + 1, end )
+      for leftTree in leftSubtrees:
+         for rightTree in rightSubtrees:
+            root = TreeNode( i )
+            root.left = leftTree
+            root.right =rightTree
+            result.append( root )
+
+   return result
+
 print( bst( 2 ) )
 print( bst( 3 ) )

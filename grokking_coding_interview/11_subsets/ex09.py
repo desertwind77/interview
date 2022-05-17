@@ -34,9 +34,40 @@ def doBst( arr ):
 
    return result
 
-def countBst( num ):
+def countBst1( num ):
    result = doBst( list( range( num ) ) )
-   return len( result ) 
+   return len( result )
+
+def doCountBst2( start, end ):
+   if start >= end:
+      return 1
+
+   count = 0
+   for i in range( start, end + 1 ):
+      left = doCountBst2( start, i - 1 )
+      right = doCountBst2( i + 1, end )
+      count += left * right
+
+   return count
+
+def countBst2( num ):
+   return doCountBst2( 1, num )
+
+def countBst3( num, cache=None ):
+   if cache and num in cache:
+      return cache[ num ]
+
+   if num <= 1:
+      return 1
+
+   count = 0
+   for i in range( 1, num + 1 ):
+      left = countBst3( i - 1, cache )
+      right = countBst3( num - i, cache )
+      count += left * right
+
+   cache[ num ] = count
+   return count
 
 testCases = [
       {
@@ -52,4 +83,6 @@ testCases = [
 for test in testCases:
    i = test[ 'input' ]
    o = test[ 'output' ]
-   assert( countBst( i ) == o )
+   assert( countBst1( i ) == o )
+   assert( countBst2( i ) == o )
+   assert( countBst3( i, {} ) == o )

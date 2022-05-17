@@ -22,6 +22,24 @@ def stringPermutations( arr ):
 
    return results
 
+def doRecursive( arr, index, curPermutation, result ):
+   def upper( arr, i ):
+      tmp = list( arr )
+      tmp[ i ] = tmp[ i ].upper()
+      return ''.join( tmp )
+
+   if index == len( arr ):
+      result.append( curPermutation )
+   else:
+      doRecursive( arr, index + 1, curPermutation, result )
+      if arr[ index ].isalpha():
+         doRecursive( arr, index + 1, upper( curPermutation, index ), result )
+
+def recursive( arr ):
+   result = []
+   doRecursive( arr, 0, arr, result )
+   return result
+
 testCases = [
       {
          'input' : "ad52",
@@ -37,4 +55,5 @@ testCases = [
 for test in testCases:
    i = test[ 'input' ]
    o = test[ 'output' ]
-   print( stringPermutations( i ) )
+   assert( sorted( stringPermutations( i ) ) == sorted( o ) )
+   assert( sorted( recursive( i ) ) == sorted( o ) )
