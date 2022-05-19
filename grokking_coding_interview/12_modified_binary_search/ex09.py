@@ -1,16 +1,27 @@
 #!/usr/bin/env python
-# Given an array of numbers which is sorted in ascending order and also rotated by some arbitrary number, find if a given ‘key’ is present in it.
+# Given an array of numbers which is sorted in ascending order and also rotated
+# by some arbitrary number, find if a given ‘key’ is present in it.
+#
+# Write a function to return the index of the ‘key’ in the rotated array. If
+# the ‘key’ is not present, return -1. You can assume that the given array
+# does not have any duplicates.
 
-Write a function to return the index of the ‘key’ in the rotated array. If the ‘key’ is not present, return -1. You can assume that the given array does not have any duplicates.
+# We can do the same thing as ex08.py
 
-Example 1:
+testCases = [
+      {
+         'input' : [10, 15, 1, 3, 8],
+         'key' : 15,
+         'output' : 1,
+      },
+      {
+         'input' : [4, 5, 7, 9, 10, -1, 2],
+         'key' : 10,
+         'output' : 4,
+      },
+]
 
-Input: [10, 15, 1, 3, 8], key = 15
-Output: 1
-Explanation: '15' is present in the array at index '1'.
-
-Example 2:
-
-Input: [4, 5, 7, 9, 10, -1, 2], key = 10
-Output: 4
-
+for test in testCases:
+   i = test[ 'input' ]
+   key = test[ 'key' ]
+   o = test[ 'output' ]
