@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
+# Leetcode 3
+# Given a string s, find the length of the longest substring without repeating
+# characters.
 
 def lengthOfLongestSubstring_slow( s: str) -> int:
-   '''
-   Given a string s, find the length of the longest substring without repeating
-   characters.
-
-   time = O( n ^ 2 )
-   space = O( 1 )
-   '''
+   # time = O( n ^ 2 )
+   # space = O( 1 )
    maxCount = 0
 
    for i in range( 0, len( s ) ):
@@ -28,13 +26,8 @@ def lengthOfLongestSubstring_slow( s: str) -> int:
    return maxCount
 
 def lengthOfLongestSubstring_fast( s: str) -> int:
-   '''
-   Given a string s, find the length of the longest substring without repeating
-   characters.
-
-   time = O( n )
-   space = O( 1 )
-   '''
+   # time = O( n )
+   # space = O( 1 )
    maxCount = 0
    location = [ -1 ] * 256
 
