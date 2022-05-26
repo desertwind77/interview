@@ -93,6 +93,7 @@ def threeSum4( nums ):
          dups.add( val1 )
          for j, val2 in enumerate( nums[ i+1: ] ):
             complement = -val1 - val2
+
             if complement in seen and seen[ complement ] == i:
                res.add( tuple( sorted( ( val1, val2, complement ) ) ) )
             # Instead of re-populating a hashset every time in the inner loop, we can
@@ -101,6 +102,29 @@ def threeSum4( nums ):
             # we process nums[j] in the inner loop, we set its hashmap value to i.
             # This indicates that we can now use nums[j] as a complement for nums[i].
             seen[ val2 ] = i
+
+   # The following will not work.
+   # -2 1 3 4 5
+   #  i j
+   # first = -2, second = 1, complement = 2 - 1 = 1
+   # because 1 is in cache. we will add ( -2, 1, 1 ) to result. But this is not
+   # correct.
+   #
+   # def threeSum(self, nums):
+   #    result = []
+   #
+   #    cache = {}
+   #    for n in nums:
+   #       cache[ n ] = True
+   #
+   #    for i in range( len( nums ) ):
+   #       if i == 0 or nums[ i ] != nums[ i + 1 ]:
+   #          j = i + 1
+   #          while j < len( nums ):
+   #             complement = -nums[i] - nums[j]
+   #             if complement in cache:
+   #                result.append( [ nums[i], num[j], complement ] )
+   #   return result
 
    result = []
    for i in res:
