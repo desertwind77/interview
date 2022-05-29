@@ -1,0 +1,100 @@
+Design real-time stock price watching system like Robinhood
+- real-time stock price
+- history for 7 years
+- save favorite
+
+
+Functional Requirements (5)
+- getStockPrice( auth, symbol, call_back ) - subscribe to get stock price changes
+- getHistPrice( auth, symbol, beginTime, endTime )
+- saveFavorite( auth, symbol )
+
+Non-functional requirements (5)
+- Performace : low latency
+- Highly available at the expense of consistency (CAP)
+- Scalable
+
+Estimation (5)
+- DAU = 1M users
+- No. stock = 10K
+- Price change = 10 times/sec/stock
+* Total price changes = 100K times/sec
+- Each time the stock price change
+  * symbol    : 5 characters
+  * price     : 8 bytes
+  * timestamp : 8 bytes
+  * Total     : 20 bytes
+- Bandwidth requirement to get the stock update = 100K times/sec * 20 bytes = 2MB/s = 160 mbps
+- # notifications to users = 1M * 10 times/sec = 10 million times/sec
+- Bandwidth requirement to notify the users = 20 bytes * 10 million times/sec = 200 MB/s = 1.6 gbps
+- store only the latest price = 20 bytes * 10K stocks = 200 KB
+- space requirement
+  1 sec needs 2 MB
+  7 year needs 7 * 365 * 3600 * 2 MB/s = 18TB
+
+- Summary
+   * Total price changes = 100K times/sec       >>> few servers
+   * Bandwidth = 2 MB/s
+   * # notifications to users = 1M * 10 times/sec = 10 million times/sec
+   * Bandwidth requirement to notify the users = 20 bytes * 10 million times/sec = 200 MB/s = 1.6 gbps
+   * space requirement = 18 TB
+   * Memory requiremnt = 200 KB
+
+High-level Design (10)
+
+   c -> frontend -> pub/sub <- fetcher <- 3rd party api
+                                  |
+                                 DB
+
+Data Model/DB (10)
+user_table:
+userId
+name
+payment
+etc
+
+price_table:
+timestamp
+stock
+price
+
+fav_table:
+userId
+stock
+
+- SQL
+  + query language
+  - slow : transaction, join
+  - less scalable
+- NoSQL : wide-colum
+  + fast & more scalable esp fast write
+  - slow range query esp to retrieve historical data
+
+Deep Dive (20)
+- Summary
+   * Total price changes = 100K times/sec       >>> few servers
+   * Bandwidth = 2 MB/s
+   * # notifications to users = 1M * 10 times/sec = 10 million times/sec
+   * Bandwidth requirement to notify the users = 20 bytes * 10 million times/sec = 200 MB/s = 1.6 gbps
+   * space requirement = 18 TB
+   * Memory requiremnt = 200 KB
+
+             ------ Monitor ------
+
+   c -> frontends -> pub/sub <- fetchers <- 3rd party api
+                         |
+           MetadataDB    |
+           user_table    DB writer
+           fav_table     |
+                         DB : price_table ( primary/secondary)
+
+                     DB reader and  cache
+
+- 10 fetechers, each will fetch 1000 stocks
+
+Improve
+- user experience
+  * measure latency for each update to reach the clients
+  * react to the latency
+- analysis
+- security / privacy

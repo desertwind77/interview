@@ -1,0 +1,129 @@
+Robinhood
+- real-time stock price   >>> push-notification, stream-processing
+- history for 7 years
+- save favorite
+
+Functional Requirements
+- subscribe( auth, stock, call_back )
+- getStockPrice( auth, stock, beginTime, endTime ) -> list of ( time, price )
+- saveFavorite( auth, stock )
+  Note : auth is for authentication and rate-limiting
+
+Non-functional Requirements
+- High available (AP)
+- Scalable
+- Highly performant -> low latency
+
+Estimation
+- 10,000 stock
+- price/change 10 times/sec/stock
+* total price change = 100K times/sec
+
+- stock symbol = 5 characters or 5 bytes
+- price = 32 bits / 4 bytes
+- timestamp = 8 bytes
+* each trigger = 5 + 4 + 8 = 17 bytes => 20 bytes
+* bandwidth for receiving stock price = 20 bytes * 100K times/s = 2MB/s = 16 gbps
+
+- stock market opens 8 hrs/day -> 8 hrs * 3600 s = 28,800 sec
+* memory requirement to store all the data in the memory = 2M * 28,800 = 57.6 GB    >>> 1-2 servers are enough
+
+- 100M users
+- 10M DAU
+- triggers/sec = 10M usrs * 100K times/sec = 1 billions times/s   >>> too much for one machine
+- bandwidth = 20 bytes * 1 billions time/s = 20 GB/s = 160 gbps
+
+- storage requiremnt
+  1 day, we need 57.6GB
+  7 year, we need 57.6 * 365 * 7 = 147 TB
+
+High-level Desgin
+
+    c -> front-end <- 3rd party
+             |
+             DB
+
+Data Model/Dabase
+
+user_table:
+userId
+name
+payment
+password
+
+favorite_table:
+userId
+stockSymbol
+
+price_table:
+timestamp
+stockSymbol
+price
+
+- Sql
+  Pros - easy to query esp range query like stock price for Amazon from 2010 - 2011
+  Cons - slow because of transaction cost while our data is independent (no relationship, no inconsistency)
+
+- NoSql : wide-column
+  stockSymbol -> [ timestamp1 : price ]
+
+  Pros - fast to insert
+       - easy retrieve the data for each stock
+  Cons - slow range query
+
+Deep Drive
+
+    c -> front-end <- 3rd party
+             |
+             DB
+
+1) Receiving the data from 3rd party
+- data is pushed when there is a price change
+
+     pub/sub <- 26 receivers <- 3rd party
+                     |
+                     DB
+2) Notify the clients
+     DNS
+
+     c -> LBs -> frontends -> pub/sub <- receivers <- 3rd party
+                                             |
+                                             DB
+
+Incorrect!
+LB hash( stock )
+amazon -> front-end1
+
+3) Retrieve historical data
+     c -> LBs -> frontends -> pub/sub <- receivers <- 3rd party
+                                             |
+                                  cache  <   DB
+
+4) Favorite stock
+     c -> LBs -> frontends -> pub/sub <- receivers <- 3rd party
+                                             |
+               metadata           cache  <   DB
+               fav_table                  price_able
+               user_table
+
+5)
+
+      Monitor (primary, secondary) watchs frontends, receivers, db_writers
+
+     c -> LBs -> frontends -> pub/sub <- receivers <- 3rd party
+                                             |
+                                             queue
+                                             |
+                                             db_writer
+                                             |
+               metadata           cache  <   DB > Cassandra : partitioning/replication
+               fav_table                  price_able
+               user_table
+               (primary/secondary)
+
+- High available (AP)
+- Scalable
+- Highly performant -> low latency
+
+Improve user experience
+- monitor watches performances each service and spawn/kill servers per on-demand load requiremnet

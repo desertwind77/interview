@@ -1,0 +1,99 @@
+Problem
+- explain SQL/NoSQL
+- explain partition stocks among retriever
+
+Design real-time stock price watching system like Robinhood
+- real-time stock price
+- history for 7 years
+- save favorite
+
+Clarification  5
+- How to get the real-time stock price? 3rd party api
+- How does the API works? Push (real-time)
+
+Functional requirements 5
+- subscribe( auth, symbol, call_back )
+- retrievePrice( auth, symbol, beginTime, endTime )
+- saveFavorite( auth, symbol )
+
+Non-funcitonal requirements  5
+- Highly performant: low-latency
+- High available (AP)
+- Scalable
+- Analysis/metric
+
+Estimation 5
+- # stocks = 10,000
+- update = 10 times/s
+* total updates = 100K times/s
+* each update = ( timestamp 8, symbol 5, price 8 ) = 21 bytes => 30 bytes
+* bandwidth = 30 bytes * 100K times/s = 3MB/s
+* memory requirment = 3MB
+* space requirment
+   > 1s     3MB
+   > 7yrs   = 7 yrs * 365 days * 24 hrs * 3600 sec * 3MB/s = 662256000 MB => 662256 GB => 662 TB
+
+- # users = 1M users
+- each user watches only 1 stock at a time => 10 updates/s
+- total updates = 10 times/s * 1M users = 10M updates/s
+- bandwidth = 30B * 10M updates/s = 300 MB/s
+
+
+High-level Design 5
+
+   DNS
+
+   clients -> load balanceers -> frontends -> pub/sub <- retriever <- 3rd party api
+                                    |                        |
+                                 metadata DB                price DB
+                                 user_table:                price_table:
+                                 favorite_table:
+
+Data Model/DB 5
+- metadata db : user_table, favorite_table
+  * more read than write
+  * relationship b/w two table
+  * SQL : normalization,
+- price db : price_table
+  * NoSQL : no relationship, no join, write-heavy, very good for time-series data
+
+user_tables:
+userID
+name
+payment
+etc
+
+favorite_tables:
+userID
+symbol
+
+price_tables:
+timestamp
+symbol
+price
+
+Deep Drive 15
+
+   Monitor : LBs, frontends, retrievers, db writers, db reader
+   - what stocks each retriever is responsible for
+   - zookeeper
+
+   clients -> load balanceers -> frontends -> pub/sub <- retrievers <- 3rd party api
+                                    |                        |
+                                 metadata service            queue
+                                    |                        |
+                                 metaadata DB/cache          db writers | db reader / cache
+                                                             |
+                                                             price DB (distributed wide-column nosql) - partitioning and replication e.g. Cassandra, Dynamo
+
+- Highly performant: low-latency
+  10K stocks
+  10 retrievers, each will take care 1K
+- High available (AP)
+- Scalable
+
+Discussion
+- Analysis/metric
+  * collect delay b/w retriever & frontends
+  * collect heartbeat data from each service
+   > avg hearbeat for each service
