@@ -62,10 +62,10 @@ def arrange2( arr, k ):
          queue.append( ( negFreq + 1, ch ) )
 
       # k = 2
-      # m:2,p:2   m     p:2      [m:1]          p:2
-      # p:2       mp    {}       [m:1,p:1]      m:1
-      # m:1       mpm   {}       [p:1,m:0]      p:1
-      # p:1       mpmp  {}       [m:0,p:0]      {}
+      # m:-2,p:-2    m     p:-2     [m:-1]          p:-2
+      # p:-2         mp    {}       [m:-1,p:-1]     m:-1
+      # m:-1         mpm   {}       [p:-1,m:0]      p:-1
+      # p:-1         mpmp  {}       [m:0,p:0]       {}
       if len( queue ) == k:
          prevNegFreq, prevCh = queue.popleft()
          heappush( maxHeap, ( prevNegFreq, prevCh ) )
