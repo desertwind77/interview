@@ -21,43 +21,37 @@ def schedule( arr, k ):
 
    queue = deque()
    cpu = 0
-   sch = ''
-   while maxHeap or queue:
-      ch, freq = None, 0
-      if maxHeap:
-         freq, ch = heappop( maxHeap )
-         cpu += 1
-         sch += ch
+   # k:3
+   # i   maxHeap     cpu   queue       maxHeap
+   # 0   a:-2,b:-1   a     [a:-1]      b:-1
+   # 1   b:-1        ab    [a:-1]      {}
+   # 2   {}          abI   [a:-1]      {}
+   # 3   {}          abII  [a:-1]      {}
+   # 0   a:-1        abIIa []          {}
+   # 1   {}          abIIa []
+   while maxHeap:
+      for _ in range( k + 1 ):
+         if maxHeap:
+            # running a task
+            negFreq, ch = heappop( maxHeap )
+            if negFreq < 0:
+               cpu += 1
 
-      if queue:
-         top = queue.popleft()
-         if top:
-            prevCh, prevFreq = top
-            heappush( maxHeap, ( -prevFreq, prevCh ) )
-         elif not ch:
+            negFreq += 1
+            if negFreq < 0:
+               queue.append( ( negFreq, ch ) )
+         elif queue:
             cpu += 1
-            sch += 'N'
 
-      if ch:
-         freq = -freq
-         freq -= 1
-         if freq > 0:
-            for _ in range( k - len( queue ) - 2 ):
-               queue.append( None )
-            queue.append( ( ch, freq ) )
-   print( sch )
+      while queue:
+         negFreq, ch = queue.popleft()
+         if negFreq < 0:
+            heappush( maxHeap, ( negFreq, ch ) )
 
    return cpu
 
 testCases = [
       # a -> c -> b -> a -> c -> idle -> a
-      # a:3,c:2,b:1     a        [None,a:2]        c:2,b:1
-      # c:2,b:1         ac       [a:2,c:1]         b:1
-      # b:1             acb      [c:1]             a:2
-      # a:2             acba     [N,a:1]           c:1
-      # c:1             acbacN   [a:1]
-      # {}              acbacN   []                a:1
-      # a:1             acbacNa  []                {}
       {
          'input' : [ 'a', 'a', 'a', 'b', 'c', 'c' ],
          'K' : 2,
