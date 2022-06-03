@@ -19,6 +19,8 @@ def sort( arr ):
       if arr[ i ] != i + 1:
          return [ arr[ i ], i + 1 ]
 
+   return [ -1, -1 ]
+
 testCases = [
       {
          'input' : [3, 1, 2, 5, 2],
