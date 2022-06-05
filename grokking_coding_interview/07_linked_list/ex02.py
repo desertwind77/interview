@@ -18,30 +18,37 @@ class Node:
       print()
 
 def reverse_sub_list( head, p, q ):
-   start = pPtr = qPtr = head
-
-   count = 1
-   while count < q:
-      if count < p:
-         start = pPtr
-         pPtr = pPtr.next
-      qPtr = qPtr.next
+   # locate the starting position
+   beforeStart, count, start = None, 1, head
+   while count < p:
+      beforeStart = start
+      start = start.next
       count += 1
-   # print( start.val if start is not None else None,
-   #        pPtr.val, qPtr.val )
 
-   prev, cur, next, end = None, pPtr, None, qPtr.next
-   while cur != end:
+   #     s   e
+   # N 1 2 3 4 5
+   #   p c
+   # 0  <c n
+   #     p c
+   # 1    <c n
+   #       p c
+   # 2      <c n
+   #         p c
+
+   prev, cur, next = None, start, None
+   i = 0
+   while cur is not None and i < q - p + 1:
       next = cur.next
       cur.next = prev
       prev = cur
       cur = next
+      i += 1
+   start.next = cur
 
-   if start == pPtr:
+   if start == head:
       head = prev
    else:
-      start.next = qPtr
-   pPtr.next = end
+      beforeStart.next = prev
 
    return head
 
@@ -61,16 +68,16 @@ def main():
    print("Nodes of reversed LinkedList are: ", end='')
    head.print_list()
 
-   # head = reverse_sub_list(head, 1, 7)
-   # print("Nodes of reversed LinkedList are: ", end='')
-   # head.print_list()
-   #
-   # head = reverse_sub_list(head, 2, 9)
-   # print("Nodes of reversed LinkedList are: ", end='')
-   # head.print_list()
-   #
-   # head = reverse_sub_list(head, 2, 9)
-   # print("Nodes of reversed LinkedList are: ", end='')
-   # head.print_list()
+   head = reverse_sub_list(head, 1, 7)
+   print("Nodes of reversed LinkedList are: ", end='')
+   head.print_list()
+
+   head = reverse_sub_list(head, 2, 9)
+   print("Nodes of reversed LinkedList are: ", end='')
+   head.print_list()
+
+   head = reverse_sub_list(head, 2, 9)
+   print("Nodes of reversed LinkedList are: ", end='')
+   head.print_list()
 
 main()
