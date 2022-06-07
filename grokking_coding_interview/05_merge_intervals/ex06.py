@@ -19,7 +19,7 @@ class Job:
             str( self.load ) + "]"
 
    def __lt__( self, other ):
-      return self.start <= other.start
+      return self.start < other.start
 
 def maxLoad( jobs ):
    jobs = [ Job( j[ 0 ], j[ 1 ], j[ 2 ] ) for j in jobs ]
