@@ -90,6 +90,11 @@ testCases = [
          'output' : True,
       },
       {
+         'input' : "oicbxbcacf",
+         'pattern' : "abcc",
+         'output' : True,
+      },
+      {
          'input' : "odicf",
          'pattern' : "dc",
          'output' : False,
